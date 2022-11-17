@@ -7,9 +7,11 @@ const indexRoutes = require("./routes/index");
 const busRoutes = require("./routes/bus");
 
 const app = express();
-const port = 3000;
+const port = 3100;
 
 dotenv.config();
+const client = new Client();
+client.connect();
 
 app.use(
   cors({

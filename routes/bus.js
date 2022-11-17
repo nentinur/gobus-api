@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const getWarga = require("../services/bus/get-bus");
+const getBus = require("../services/bus/get-bus");
+router.get("/", getBus);
 
-router.get("/", getWarga);
+const getKursi = require("../services/bus/get-kursi-kosong");
+router.get("/kursi", getKursi);
 
 module.exports = router;
