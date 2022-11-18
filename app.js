@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const { Client } = require("pg");
 const indexRoutes = require("./routes/index");
 const busRoutes = require("./routes/bus");
+const pesananRoutes = require("./routes/pesanan");
 
 const app = express();
 const port = 3100;
@@ -22,6 +23,7 @@ app.use(
 app.use(express.json());
 app.use("", indexRoutes);
 app.use("/bus", busRoutes);
+app.use("/pesanan", pesananRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
