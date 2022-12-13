@@ -3,7 +3,7 @@ const pool = require("../../utils/db-pool");
 module.exports = (httpRequest, httpResponse) => {
   pool.query(
     `
-        SELECT * FROM app.bus INNER JOIN app.keberangkatan ON app.bus.no_bus = app.keberangkatan.no_bus
+        SELECT * FROM app.bus INNER JOIN app.jadwal ON app.bus.no_bus = app.jadwal.no_bus
     `,
     [],
     (dbError, dbResponse) => {

@@ -4,14 +4,17 @@ module.exports = (httpRequest, httpResponse) => {
   pool.query(
     `
         INSERT INTO app.pesanan (
-            id_keberangkatan, 
-            jumlah_kursi, 
+            id_pesanan, 
+            id_jadwal,
+            jumlah_kursi,
+            nama,
+            kontak, 
             waktu, 
             latitude_naik, 
             langitude_naik, 
             latitude_turun, 
             longitude_turun, 
-            status
+            tanggal
         )
         VALUES (
             $1,
@@ -20,17 +23,24 @@ module.exports = (httpRequest, httpResponse) => {
             $4,
             $6,
             $7,
-            TRUE
+            $8,
+            $9,
+            $10,
+            $11
         )
     `,
     [
-      httpRequest.body.idKeberangkatan,
+      httpRequest.body.idPesanan,
+      httpRequest.body,idJadwal,
       httpRequest.body.jumlahKursi,
+      httpRequest.body.nama,
+      httpRequest.body.kontak,
       httpRequest.body.waktu,
       httpRequest.body.latitudeNaik,
       httpRequest.body.longitudeNaik,
       httpRequest.body.latitudeTurun,
       httpRequest.body.longitudeTurun,
+      httpRequest.body.tanggal
     ],
     (dbError, dbResponse) => {
       if (dbError) throw dbError;

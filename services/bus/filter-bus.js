@@ -1,15 +1,15 @@
 const pool = require("../../utils/db-pool");
 
 module.exports = (httpRequest, httpResponse) => {
-  const no = httpRequest.query.no;
-  if (no !== null) {
+  const jurusan = httpRequest.query.jurusan;
+  if (jurusan !== null) {
     pool.query(
       `
-        SELECT app.bus.jurusan, app.keberangkatan.jam, app.keberangkatan.kursi_kosong FROM app.bus 
-        INNER JOIN app.keberangkatan ON app.bus.no_bus = app.keberangkatan.no_bus 
-        WHERE app.bus.no_bus = $1
+        SELECT app.bus.jurusan, app.jadwal.jam, app.jadwal.kursi_kosong, app.bus.tarif FROM app.bus 
+        INNER JOIN app.jadwal ON app.bus.no_bus = app.jadwal.no_bus 
+        WHERE app.bus.kode_jurusan = $1
     `,
-      [no],
+      [jurusan],
       (dbError, dbResponse) => {
         if (dbError) throw dbError;
         httpResponse.json(dbResponse.rows);
@@ -18,8 +18,7 @@ module.exports = (httpRequest, httpResponse) => {
   } else {
     pool.query(
       `
-        SELECT * FROM app.bus 
-        INNER JOIN app.keberangkatan ON app.bus.no_bus = app.keberangkatan.no_bus
+        SELECT * FROM app.bus
     `,
       [],
       (dbError, dbResponse) => {

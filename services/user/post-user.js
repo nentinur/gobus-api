@@ -5,25 +5,20 @@ module.exports = (httpRequest, httpResponse) => {
   const hashedPassword = bcrypt.hashSync(httpRequest.body.pass, 8);
   pool.query(
     `
-        INSERT INTO app.penumpang (
-            id_penumpang, 
+        INSERT INTO app.user (
             nama,
-            no_telp,
-            pass
+            kontak,
+            pass,
+            role
         )
         VALUES (
             $1,
             $2,
             $3,
-            $4
+            'penumpang'
         )
     `,
-    [
-      httpRequest.body.idPenumpang,
-      httpRequest.body.nama,
-      httpRequest.body.noTelp,
-      hashedPassword,
-    ],
+    [httpRequest.body.nama, httpRequest.body.kontak, hashedPassword],
     (dbError, dbResponse) => {
       if (dbError) throw dbError;
       httpResponse.json(dbResponse.rows);
