@@ -3,16 +3,37 @@ const router = express.Router();
 const pool = require("utils/db-pool");
 
 router.get("/", (httpRequest, httpResponse) => {
-  pool.query(
-    `
-        SELECT * FROM app.users
-    `,
-    [],
-    (dbError, dbResponse) => {
-      if (dbError) throw dbError;
-      httpResponse.json(dbResponse.rows);
-    }
-  );
+  let email = req.body.email;
+  let password = req.body.pass;
+  if (email && password) {
+    pool.getConnection(function (err, connection) {
+      if (err) throw err;
+      connection.query(
+        `SELECT * FROM table_user WHERE user_email = ? AND user_password = SHA2(?,512)`,
+        [email, password],
+        function (error, results) {
+          if (error) throw error;
+          if (results.length > 0) {
+            // Jika data ditemukan, set sesi user tersebut menjadi true
+            req.session.loggedin = true;
+            req.session.userid = results[0].user_id;
+            req.session.username = results[0].user_name;
+            res.redirect("/");
+          } else {
+            // Jika data tidak ditemukan, set library flash dengan pesan error yang diinginkan
+            req.flash("color", "danger");
+            req.flash("status", "Oops..");
+            req.flash("message", "Akun tidak ditemukan");
+            res.redirect("/login");
+          }
+        }
+      );
+      connection.release();
+    });
+  } else {
+    res.redirect("/login");
+    res.end();
+  }
 });
 
 module.exports = router;
