@@ -10,4 +10,7 @@ router.post("/", postPesanan);
 const getPesananByUser = require("../services/pesanan/get-pesanan-by-user");
 router.get("/pesanan-user", getPesananByUser);
 
+const getPesananDetail = require("../services/pesanan/get-pesanan-detail");
+router.get("/pesanan-detail", getPesananDetail);
+
 module.exports = router;

@@ -1,15 +1,16 @@
 const pool = require("../../utils/db-pool");
 
 module.exports = (httpRequest, httpResponse) => {
-  const id_user = httpRequest.query.id_user;
   pool.query(
     `
-        SELECT * FROM app.user WHERE id_user = $1
+        UPDATE app.jadwal SET 
+            kursi_kosong = $1
+	    WHERE id_jadwal = $2;
     `,
-    [id_user],
+    [httpRequest.body.kursi, httpRequest.body.id],
     (dbError, dbResponse) => {
       if (dbError) throw dbError;
-      httpResponse.json(dbResponse.rows[0]);
+      httpResponse.json(dbResponse.rows);
     }
   );
 };

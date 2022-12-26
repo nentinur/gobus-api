@@ -6,4 +6,8 @@ router.get("/", getUser);
 
 const postUser = require("../services/user/post-user");
 router.post("/", postUser);
+
+const updateUser = require("../services/user/update-user");
+router.post("/update", updateUser);
+
 module.exports = router;

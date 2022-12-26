@@ -1,15 +1,15 @@
 const pool = require("../../utils/db-pool");
 
 module.exports = (httpRequest, httpResponse) => {
-  const id_user = httpRequest.query.id_user;
+  const user = httpRequest.body.user;
   pool.query(
     `
-        SELECT * FROM app.user WHERE id_user = $1
+      SELECT * FROM app.user WHERE id_user = $1
     `,
-    [id_user],
+    [user],
     (dbError, dbResponse) => {
       if (dbError) throw dbError;
-      httpResponse.json(dbResponse.rows[0]);
+      httpResponse.json(dbResponse.rows);
     }
   );
 };
