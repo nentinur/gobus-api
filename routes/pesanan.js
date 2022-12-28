@@ -13,4 +13,7 @@ router.get("/pesanan-user", getPesananByUser);
 const getPesananDetail = require("../services/pesanan/get-pesanan-detail");
 router.get("/pesanan-detail", getPesananDetail);
 
+const getPesananJadwal = require("../services/pesanan/get-pesanan-by-jadwal");
+router.get("/pesanan-jadwal", getPesananJadwal);
+
 module.exports = router;
