@@ -1,15 +1,14 @@
 const pool = require("../../utils/db-pool");
 
 module.exports = (httpRequest, httpResponse) => {
-  const jurusan = httpRequest.query.jurusan;
-  const jam = httpRequest.query.jam;
+  const id_jadwal = httpRequest.query.id_jadwal;
   pool.query(
     `
         SELECT * FROM app.bus 
         JOIN app.jadwal ON app.bus.no_bus = app.jadwal.no_bus
-        WHERE app.bus.kode_jurusan = $1 AND app.jadwal.jam = $2
+        WHERE app.jadwal.id_jadwal = $1
     `,
-    [jurusan, jam],
+    [id_jadwal],
     (dbError, dbResponse) => {
       if (dbError) throw dbError;
       httpResponse.json(dbResponse.rows[0]);
